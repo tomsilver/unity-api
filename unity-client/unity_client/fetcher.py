@@ -18,6 +18,7 @@ class Fetcher(object):
 
 
   def sync(self):
+    self.inputData["clientTime"] = self.timestep
     values = {'inputData' : json.dumps(self.inputData)}
     data = urllib.urlencode(values)
     req = urllib2.Request(self.url, data)
@@ -26,6 +27,7 @@ class Fetcher(object):
     outputData = json.loads(response.read())
 
     newTimestep = self.timestep
+
     if "timestep" in outputData:
       newTimestep = outputData["timestep"]
 
@@ -36,6 +38,9 @@ class Fetcher(object):
 
     self.lastPing = time.time()
     self.timestep = newTimestep
+
+
+
     self.inputData = {}
 
     return outputData

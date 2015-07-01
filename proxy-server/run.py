@@ -13,7 +13,6 @@ urls = (
 outputData = {}
 inputData = {}
 
-timestep = 0
 resetFlag = False
 
 
@@ -25,21 +24,18 @@ class reset:
     return "Confirmed"
 
 
-
 class sync:
   def POST(self):
-    global outputData, timestep, resetFlag
+    global outputData, resetFlag
     outputData = json.loads(web.input().outputData)
-    outputData["timestep"] = timestep
     outputData["reset"] = resetFlag
-    timestep += 1
     resetFlag = False
     return json.dumps(inputData)
 
 
 class update:
   def POST(self):
-    global inputData, timestep
+    global inputData
     inputData = json.loads(web.input().inputData)
     return json.dumps(outputData)
 
